@@ -41,14 +41,14 @@ func HandleTickerPrice(w http.ResponseWriter, r *http.Request, store *pricefeed.
 	// Check if prices are empty and return test prices for wallet tokens
 	if len(prices) == 0 && len(store.ReadMap) == 0 {
 		prices = []pricefeed.PriceInfo{
-			{Symbol: "wETH", Price: 3500.00, Source: pricefeed.TEST_SOURCE},
-			{Symbol: "ETH", Price: 3500.00, Source: pricefeed.TEST_SOURCE},
-			{Symbol: "USDC", Price: 1.0004, Source: pricefeed.TEST_SOURCE},
-			{Symbol: "wUSDC", Price: 1.0004, Source: pricefeed.TEST_SOURCE},
-			{Symbol: "USDT", Price: 0.9996, Source: pricefeed.TEST_SOURCE},
-			{Symbol: "wUSDT", Price: 0.9996, Source: pricefeed.TEST_SOURCE},
-			{Symbol: "AXC", Price: 0.1300, Source: pricefeed.TEST_SOURCE},
-			{Symbol: "wAXC", Price: 0.1300, Source: pricefeed.TEST_SOURCE},
+			{Symbol: "wETHUSD", Price: 3500.00, Source: pricefeed.TEST_SOURCE},
+			{Symbol: "ETHUSD", Price: 3500.00, Source: pricefeed.TEST_SOURCE},
+			{Symbol: "USDCUSD", Price: 1.0004, Source: pricefeed.TEST_SOURCE},
+			{Symbol: "wUSDCUSD", Price: 1.0004, Source: pricefeed.TEST_SOURCE},
+			{Symbol: "USDTUSD", Price: 0.9996, Source: pricefeed.TEST_SOURCE},
+			{Symbol: "wUSDTUSD", Price: 0.9996, Source: pricefeed.TEST_SOURCE},
+			{Symbol: "AXCUSD", Price: 0.1300, Source: pricefeed.TEST_SOURCE},
+			{Symbol: "wAXCUSD", Price: 0.1300, Source: pricefeed.TEST_SOURCE},
 		}
 	}
 
