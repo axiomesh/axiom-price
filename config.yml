@@ -1,22 +1,32 @@
-# 是否使用代理
+# Whether to use a proxy
 use_proxy: true
 proxy_url: http://127.0.0.1:58890
-# 从第三方服务拉取价格列表的时间间隔
+
+# Time interval for fetching the price list from third-party services (in seconds)
 fetch_seconds_duration: 10
-# 组件提供服务的http端口
+
+# HTTP port for the service
 http_port: 23510
-# 默认的私钥配置
+
+# Default private key configuration, used for updating prices on-chain
 private_key: 0x72efcf4bb0e8a300d3e47e6a10f630bcd540de933f01ed5380897fc5e10dc95d
-# 也可以从如下环境变量中读取私钥
+
+# The private key can also be read from the following environment variable
 env_private_key_name: PRICE_FEEDS_PRIVATE_KEY
-# 价格推送合约
+
+# Price feed contract
 price_feeds_contract: 0x189b923469603B18644CAfbF18F80eeb2399F883
-# chain rpc 地址
+
+# Chain RPC URL
 rpc_url: http://172.16.13.132:2881
-# chain id
+
+# Chain ID
 chain_id: 1356
-# 汇率默认配置
+
+# Default exchange rate configuration
 axc_usd: 0.13
+
+# Tokens in the price contract, use the address as a parameter to query
 aa_ticker_list:
   - ticker: wETH
     symbol: wETHAXC
@@ -27,6 +37,8 @@ aa_ticker_list:
   - ticker: wUSDC
     symbol: wUSDCAXC
     address: 0x0000000000000000000000000000000000010003
+
+# Use the same price for aggregation
 wallet_ticker_list:
   - ticker: ETH
     alias: wETH

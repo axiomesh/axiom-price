@@ -45,6 +45,7 @@ const (
 	BYBIT_SOURCE   = "bybit"
 	OKX_SOURCE     = "okx"
 	MIXED_SOURCE   = "mixed"
+	TEST_SOURCE    = "test"
 	CONFIG_SOURCE  = "config"
 
 	HTTP_CLIENT_TIMEOUT = 5 * time.Second

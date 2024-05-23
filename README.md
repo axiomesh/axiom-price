@@ -26,7 +26,7 @@ cd price-aggregator
 2. Edit the config.yml file to set the proxy and other configurations as needed.
 3. Build and run the project:
 ```shell
-go build -o price-aggregator .
+go build -o price-aggregator ./cmd/server
 ./price-aggregator
 ```
 
@@ -38,11 +38,53 @@ GET http://localhost:23510/api/ticker/price?symbol=BTCUSDT,ETHUSDT
 
 ## Configuration
 
-The config.yml configuration file supports the following settings:
+### Proxy Settings
+use_proxy: Set to true to use a proxy for network requests.
 
-- useProxy: Whether to access the API through a proxy (true/false).
-- proxyURL: The URL of the proxy server.
-- httpPort: The port number on which the HTTP server listens.
+proxy_url: The URL of the proxy server.
+
+### Fetching Prices
+fetch_seconds_duration: The interval (in seconds) for fetching the price list from third-party services.
+
+### HTTP Service
+http_port: The HTTP port on which the service will run.
+
+### Private Key Configuration
+private_key: The default private key used for updating prices on-chain.
+
+env_private_key_name: The environment variable name that can be used to read the private key.
+
+### Price Feed Contract
+
+price_feeds_contract: The contract address for the price feed.
+
+### Blockchain Settings
+
+rpc_url: The RPC URL of the blockchain.
+
+chain_id: The ID of the blockchain.
+
+### Exchange Rate Configuration
+
+axc_usd: The default exchange rate for AXC to USD.
+
+### Token Configuration
+#### Price Contract Tokens
+
+List of tokens with their tickers, symbols, and contract addresses for querying prices.
+
+aa_ticker_list:
+- ticker: The token's ticker.
+- symbol: The token's symbol in the price feed contract.
+- address: The token's contract address.
+
+#### Aggregation Tokens
+
+List of tokens for aggregation with their tickers and aliases.
+
+wallet_ticker_list:
+- ticker: The token's ticker.
+- alias: The alias used for the token.
 
 ## Contributing
 
