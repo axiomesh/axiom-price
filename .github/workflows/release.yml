@@ -1,0 +1,81 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+env:
+  GO_VERSION: 1.21.0
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    name: Release binary on Linux and Macos
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        include:
+          - goarch: amd64
+            goos: linux
+          - goarch: amd64
+            goos: darwin
+          - goarch: arm64
+            goos: linux
+          - goarch: arm64
+            goos: darwin
+    outputs:
+      status: ${{ steps.check.outputs.status }}
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: ${{ env.GO_VERSION }}
+
+      - name: Extract version from tag
+        run: echo "APP_VERSION=$(echo ${GITHUB_REF#refs/tags/})" >> $GITHUB_ENV
+
+      - name: Build Binary
+        run: |
+          mkdir -p dist/price-aggregator-release-${{ matrix.goos }}-${{ matrix.goarch }}
+          GOARCH=${{ matrix.goarch }} GOOS=${{ matrix.goos }} go build -o dist/price-aggregator-release-${{ matrix.goos }}-${{ matrix.goarch }}/price-aggregator ./cmd/server
+
+      - name: Copy Config and Scripts
+        run: |
+          cp config.yml start.sh stop.sh dist/price-aggregator-release-${{ matrix.goos }}-${{ matrix.goarch }}
+
+      - name: Compress Binaries
+        run: |
+          cd dist
+          tar -czvf price-aggregator-${{ matrix.goos }}-${{ matrix.goarch }}.tar.gz price-aggregator-release-${{ matrix.goos }}-${{ matrix.goarch }}
+
+      - name: Release Binary
+        uses: softprops/action-gh-release@v1
+        with:
+          files: dist/**/*.tar.gz
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: "If failure"
+        id: check
+        if: failure()
+        run: echo "::set-output name=status::failure"
+
+  notify:
+    name: "dingtalk notify"
+    runs-on: ubuntu-20.04
+    if: ${{ always() }}
+    needs: build-and-release
+    steps:
+      - name: dingtalk notify
+        uses: axiomesh/release-notify-action@master
+        with:
+          users: ${{ secrets.USERS }}
+          webhook: ${{ secrets.WEBHOOK }}
+          status: ${{ needs.build-and-release.outputs.status }}
